@@ -1,7 +1,6 @@
 
 package hello;
 
-import com.gemstone.gemfire.cache.GemFireCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +10,8 @@ import org.springframework.data.gemfire.CacheFactoryBean;
 import org.springframework.data.gemfire.LocalRegionFactoryBean;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
+
+import com.gemstone.gemfire.cache.GemFireCache;
 
 @Configuration
 @EnableGemfireRepositories
