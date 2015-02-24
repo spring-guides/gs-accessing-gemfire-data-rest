@@ -2,21 +2,16 @@
 package hello;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.gemfire.CacheFactoryBean;
 import org.springframework.data.gemfire.LocalRegionFactoryBean;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
-import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 
 import com.gemstone.gemfire.cache.GemFireCache;
 
-@Configuration
+@SpringBootApplication
 @EnableGemfireRepositories
-@Import(RepositoryRestMvcConfiguration.class)
-@EnableAutoConfiguration
 public class Application {
 
 	@Bean
