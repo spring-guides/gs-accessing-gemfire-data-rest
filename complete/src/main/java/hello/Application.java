@@ -1,6 +1,8 @@
 
 package hello;
 
+import java.util.Properties;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -12,22 +14,37 @@ import com.gemstone.gemfire.cache.GemFireCache;
 
 @SpringBootApplication
 @EnableGemfireRepositories
+@SuppressWarnings("unused")
 public class Application {
 
 	@Bean
-	CacheFactoryBean cacheFactoryBean() {
-		return new CacheFactoryBean();
+	Properties gemfireProperties() {
+		Properties gemfireProperties = new Properties();
+		gemfireProperties.setProperty("name", "DataGemFireRestApplication");
+		gemfireProperties.setProperty("mcast-port", "0");
+		gemfireProperties.setProperty("log-level", "config");
+		return gemfireProperties;
+	}
+
+	@Bean
+	CacheFactoryBean gemfireCache() {
+		CacheFactoryBean gemfireCache = new CacheFactoryBean();
+		gemfireCache.setProperties(gemfireProperties());
+		gemfireCache.setUseBeanFactoryLocator(false);
+		return gemfireCache;
 	}
 
 	@Bean
 	LocalRegionFactoryBean<String, Person> localRegionFactory(final GemFireCache cache) {
-		return new LocalRegionFactoryBean<String, Person>() {{
-			setCache(cache);
-			setName("hello");
-		}};
+		LocalRegionFactoryBean<String, Person> helloRegion = new LocalRegionFactoryBean<>();
+		helloRegion.setCache(cache);
+		helloRegion.setName("hello");
+		helloRegion.setPersistent(false);
+		return helloRegion;
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
+
 }
