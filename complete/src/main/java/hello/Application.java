@@ -38,6 +38,7 @@ public class Application {
 	LocalRegionFactoryBean<String, Person> localRegionFactory(final GemFireCache cache) {
 		LocalRegionFactoryBean<String, Person> helloRegion = new LocalRegionFactoryBean<>();
 		helloRegion.setCache(cache);
+		helloRegion.setClose(false);
 		helloRegion.setName("hello");
 		helloRegion.setPersistent(false);
 		return helloRegion;
