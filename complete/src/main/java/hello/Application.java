@@ -29,13 +29,13 @@ public class Application {
 	@Bean
 	CacheFactoryBean gemfireCache() {
 		CacheFactoryBean gemfireCache = new CacheFactoryBean();
+		gemfireCache.setClose(true);
 		gemfireCache.setProperties(gemfireProperties());
-		gemfireCache.setUseBeanFactoryLocator(false);
 		return gemfireCache;
 	}
 
 	@Bean
-	LocalRegionFactoryBean<String, Person> localRegionFactory(final GemFireCache cache) {
+	LocalRegionFactoryBean<String, Person> helloRegion(GemFireCache cache) {
 		LocalRegionFactoryBean<String, Person> helloRegion = new LocalRegionFactoryBean<>();
 		helloRegion.setCache(cache);
 		helloRegion.setClose(false);

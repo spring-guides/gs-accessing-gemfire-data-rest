@@ -27,9 +27,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-gemfire")
-    testCompile("junit:junit")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    runtime("org.springframework.shell:spring-shell:1.0.0.RELEASE")
 }
 
 task wrapper(type: Wrapper) {
