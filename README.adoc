@@ -6,10 +6,12 @@ projects: [spring-data-rest]
 :spring_data_rest: current
 :spring_data_commons: current
 :spring_boot_version: 1.4.0.RELEASE
+:Component: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
 :Controller: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :ResponseBody: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
+:EnableAutoConfiguration: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
 :toc:
 :icons: font
 :source-highlighter: prettify
@@ -19,7 +21,7 @@ This guide walks you through the process of creating an application that accesse
 
 == What you'll build
 
-You'll build a Spring application that let's you create and retrieve `Person` objects stored in a http://pivotal.io/big-data/pivotal-gemfire[GemFire] link:/understanding/NoSQL[NoSQL] database using Spring Data REST. Spring Data REST takes the features of http://projects.spring.io/spring-hateoas[Spring HATEOAS] and http://projects.spring.io/spring-data-gemfire[Spring Data Gemfire] and combines them together automatically.
+You'll build a Spring application that let's you create and retrieve `Person` objects stored in a http://pivotal.io/big-data/pivotal-gemfire[GemFire] link:/understanding/NoSQL[NoSQL] database using Spring Data REST. Spring Data REST takes the features of http://projects.spring.io/spring-hateoas[Spring HATEOAS] and http://projects.spring.io/spring-data-gemfire[Spring Data GemFire] and combines them together automatically.
 
 NOTE: Spring Data REST also supports link:/guides/gs/accessing-data-rest[Spring Data JPA], link:/guides/gs/accessing-mongodb-data-rest[Spring Data MongoDB] and link:/guides/gs/accessing-neo4j-data-rest[Spring Data Neo4j] as backend data stores, but those are not part of this guide.
 
@@ -62,7 +64,7 @@ Next you need to create a simple repository.
 include::complete/src/main/java/hello/PersonRepository.java[]
 ----
 
-This repository is an interface and will allow you to perform various operations involving `Person` objects. It gets these operations by extending CrudRepository.
+This repository is an interface and will allow you to perform various operations involving `Person` objects. It gets these operations by extending `CrudRepository`.
 
 At runtime, Spring Data REST will create an implementation of this interface automatically. Then it will use the http://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource] annotation to direct Spring MVC to create RESTful endpoints at `/people`.
 
@@ -83,7 +85,7 @@ include::complete/src/main/java/hello/Application.java[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
 
-The `@EnableGemfireRepositories` annotation activates Spring Data Gemfire. Spring Data Gemfire will create a concrete implementation of the `PersonRepository` and configure it to talk to an embedded instance of Gemfire.
+The `@EnableGemfireRepositories` annotation activates Spring Data GemFire. Spring Data GemFire will create a concrete implementation of the `PersonRepository` and configure it to talk to an embedded instance of GemFire.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
@@ -110,7 +112,7 @@ $ curl http://localhost:8080
 }
 ```
 
-Here you get a first glimpse of what this server has to offer. There is a **people** link located at http://localhost:8080/people. Spring Data Gemfire doesn't support pagination like the other Spring Data REST guides so there are no extra navigational links.
+Here you get a first glimpse of what this server has to offer. There is a **people** link located at http://localhost:8080/people. Spring Data GemFire doesn't support pagination like the other Spring Data REST guides so there are no extra navigational links.
 
 NOTE: Spring Data REST uses the http://stateless.co/hal_specification.html[HAL format] for JSON output. It is flexible and offers a convenient way to supply links adjacent to the data that is served.
 
@@ -137,7 +139,7 @@ Date: Wed, 05 Mar 2014 20:16:11 GMT
 ```
 
 - `-i` ensures you can see the response message including the headers. The URI of the newly created `Person` is shown
-- `-X POST` signals this a POST used to create a new entry
+- `-X POST` signals this a `POST` used to create a new entry
 - `-H "Content-Type:application/json"` sets the content type so the application knows the payload contains a JSON object
 - `-d '{  "firstName" : "Frodo",  "lastName" : "Baggins" }'` is the data being sent
 
@@ -223,9 +225,9 @@ $ curl http://localhost:8080/people/search/findByLastName?name=Baggins
 }
 ```
 
-Because you defined it to return `List<Person` in the code, it will return all of the results. If you had defined it only return `Person`, it will pick one of the Person objects to return. Since this can be unpredictable, you probably don't want to do that for queries that can return multiple entries.
+Because you defined it to return `List<Person>` in the code, it will return all of the results. If you had defined it only return `Person`, it will pick one of the Person objects to return. Since this can be unpredictable, you probably don't want to do that for queries that can return multiple entries.
 
-You can also issue PUT, PATCH, and DELETE REST calls to either replace, update, or delete existing records.
+You can also issue `PUT`, `PATCH`, and `DELETE` REST calls to either replace, update, or delete existing records.
 
 ```
 $ curl -X PUT -H "Content-Type:application/json" -d '{ "firstName": "Bilbo", "lastName": "Baggins" }' http://localhost:8080/people/1
@@ -255,7 +257,7 @@ $ curl http://localhost:8080/people/1
 }
 ```
 
-NOTE: PUT replaces an entire record. Fields not supplied will be replaced with null. PATCH can be used to update a subset of items.
+NOTE: `PUT` replaces an entire record. Fields not supplied will be replaced with `null`. `PATCH` can be used to update a subset of items.
 
 You can delete records:
 
