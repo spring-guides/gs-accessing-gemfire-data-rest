@@ -30,6 +30,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-gemfire")
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     runtime("org.springframework.shell:spring-shell:1.0.0.RELEASE")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
 task wrapper(type: Wrapper) {
