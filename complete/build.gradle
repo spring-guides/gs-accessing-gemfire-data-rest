@@ -8,10 +8,19 @@ buildscript {
     }
 }
 
+plugins {
+    id "io.spring.dependency-management" version "1.0.3.RELEASE"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext['jackson.version'] = '2.9.2';
 
 jar {
     baseName = 'gs-accessing-gemfire-data-rest'
@@ -23,13 +32,17 @@ repositories {
     maven { url "https://repo.spring.io/libs-release" }
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter-data-gemfire")
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
-    runtime("org.springframework.shell:spring-shell:1.0.0.RELEASE")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework:spring-framework-bom:5.0.1.RELEASE'
+        mavenBom 'org.springframework.data:spring-data-releasetrain:Kay-SR1'
+    }
 }
 
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.data:spring-data-gemfire")
+    compile("org.projectlombok:lombok:1.16.18")
+    runtime("org.springframework.shell:spring-shell:1.2.0.RELEASE")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
