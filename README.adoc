@@ -3,9 +3,9 @@ tags: [spring-data, gemfire, rest, hateoas]
 projects: [spring-data-rest]
 ---
 :spring_version: current
-:spring_data_rest: current
-:spring_data_commons: current
 :spring_boot_version: 1.5.8.RELEASE
+:spring_data_commons: current
+:spring_data_rest: current
 :Component: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
 :Controller: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
@@ -17,14 +17,25 @@ projects: [spring-data-rest]
 :source-highlighter: prettify
 :project_id: gs-accessing-gemfire-data-rest
 
-This guide walks you through the process of creating an application that accesses GemFire data through a link:/guides/gs/rest-hateoas[hypermedia-based] link:/understanding/REST[RESTful front end].
+This guide walks you through the process of creating an application that accesses Pivotal GemFire data through a
+link:/guides/gs/rest-hateoas[hypermedia-based] link:/understanding/REST[REST-ful frontend].
 
 == What you'll build
 
-You'll build a Spring application that let's you create and retrieve `Person` objects stored in a http://pivotal.io/big-data/pivotal-gemfire[GemFire] link:/understanding/NoSQL[NoSQL] database using Spring Data REST. Spring Data REST takes the features of http://projects.spring.io/spring-hateoas[Spring HATEOAS] and http://projects.spring.io/spring-data-gemfire[Spring Data GemFire] and combines them together automatically.
+You'll build a _Spring_ Web application that let's you create and retrieve `Person` objects stored in the
+http://pivotal.io/big-data/pivotal-gemfire[Pivotal GemFire] In-Memory Data Grid using Spring Data REST.
+Spring Data REST takes the features of http://projects.spring.io/spring-hateoas[Spring HATEOAS]
+and http://projects.spring.io/spring-data-gemfire[Spring Data GemFire] and combines them together automatically.
 
-NOTE: Spring Data REST also supports link:/guides/gs/accessing-data-rest[Spring Data JPA], link:/guides/gs/accessing-mongodb-data-rest[Spring Data MongoDB] and link:/guides/gs/accessing-neo4j-data-rest[Spring Data Neo4j] as backend data stores, but those are not part of this guide.
+NOTE: Spring Data REST also supports link:/guides/gs/accessing-data-rest[Spring Data JPA],
+link:/guides/gs/accessing-mongodb-data-rest[Spring Data MongoDB]
+and link:/guides/gs/accessing-neo4j-data-rest[Spring Data Neo4j] as backend data stores,
+but those are not part of this guide.
 
+TIP: For more general knowledge of Pivotal GemFire concepts and accessing data from GemFire, read through the guide,
+https://spring.io/guides/gs/accessing-data-gemfire/[Accessing Data with GemFire].
+
+[[setup]]
 == What you'll need
 
 :java_version: 1.8
@@ -32,14 +43,11 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
-
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
-
-
 
 [[initial]]
 == Create a domain object
@@ -52,11 +60,13 @@ Create a new domain object to present a person.
 include::complete/src/main/java/hello/Person.java[]
 ----
 
-The `Person` has a first name and a last name. GemFire domain objects need an id object, so an `AtomicLong` is being used to increment with each object's creation.
+The `Person` has a first and last name. Pivotal GemFire domain objects need an id, so an `AtomicLong` is being used
+to increment with each `Person` object creation.
 
-== Create a Person repository
+[[repository]]
+== Create a Person Repository
 
-Next you need to create a simple repository.
+Next, you need to create a simple _Repository_ to persist/access `Person` objects stored in Pivotal GemFire.
 
 `src/main/java/hello/PersonRepository.java`
 [source,java]
@@ -64,18 +74,27 @@ Next you need to create a simple repository.
 include::complete/src/main/java/hello/PersonRepository.java[]
 ----
 
-This repository is an interface and will allow you to perform various operations involving `Person` objects. It gets these operations by extending `CrudRepository`.
+This _Repository_ is an interface and will allow you to perform various data access operations (e.g. basic CRUD
+and simple queries) involving `Person` objects. It gets these operations by extending `CrudRepository`.
 
-At runtime, Spring Data REST will create an implementation of this interface automatically. Then it will use the http://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource] annotation to direct Spring MVC to create RESTful endpoints at `/people`.
+At runtime, _Spring Data GemFire_ will create an implementation of this interface automatically. Then, Spring Data REST
+will use the http://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource]
+annotation to direct Spring MVC to create REST-ful endpoints at `/people`.
 
-NOTE: `@RepositoryRestResource` is not required for a repository to be exported. It is only used to change the export details, such as using `/people` instead of the default value of `/persons`.
+NOTE: `@RepositoryRestResource` is not required for a _Repository_ to be exported. It is only used to change the export
+details, such as using `/people` instead of the default value of `/persons`.
 
-Here you have also defined a custom query to retrieve a list of `Person` objects based on the lastName. You'll see how to invoke it further down in this guide.
+Here you have also defined a custom query to retrieve a list of `Person` objects based on `lastName`. You'll see how to
+invoke it further down in this guide.
 
+[[executable]]
 == Make the application executable
 
-Although it is possible to package this service as a traditional link:/understanding/WAR[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. Along the way, you use Spring's support for embedding the link:/understanding/Tomcat[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
-
+Although it is possible to package this service as a traditional link:/understanding/WAR[WAR] file for deployment to
+an external application server, the simpler approach demonstrated below creates a standalone application. You package
+everything in a single, executable JAR file, driven by a good old Java `main()` method. Along the way, you use _Spring's_
+support for embedding the link:/understanding/Tomcat[Tomcat] servlet container as the HTTP runtime, instead of deploying
+to an external servlet container.
 
 `src/main/java/hello/Application.java`
 [source,java]
@@ -85,19 +104,21 @@ include::complete/src/main/java/hello/Application.java[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
 
-The `@EnableGemfireRepositories` annotation activates Spring Data GemFire. Spring Data GemFire will create a concrete implementation of the `PersonRepository` and configure it to talk to an embedded instance of GemFire.
+The `@EnableGemfireRepositories` annotation activates _Spring Data GemFire_ _Repositories_. _Spring Data GemFire_
+will create a concrete implementation of the `PersonRepository` interface and configure it to talk to an embedded
+instance of Pivotal GemFire.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
-
 Logging output is displayed. The service should be up and running within a few seconds.
 
-
+[[testing]]
 == Test the application
 
-Now that the application is running, you can test it. You can use any REST client you wish. The following examples use the *nix tool `curl`.
+Now that the application is running, you can test it. You can use any REST client you wish. The following examples uses
+the *nix tool `curl`.
 
 First you want to see the top level service.
 
@@ -112,9 +133,12 @@ $ curl http://localhost:8080
 }
 ```
 
-Here you get a first glimpse of what this server has to offer. There is a **people** link located at http://localhost:8080/people. Spring Data GemFire doesn't support pagination like the other Spring Data REST guides so there are no extra navigational links.
+Here you get your first glimpse of what this server has to offer. There is a **people** link located at
+http://localhost:8080/people. _Spring Data GemFire_ doesn't support pagination like the other Spring Data REST guides
+so there are no extra navigational links.
 
-NOTE: Spring Data REST uses the http://stateless.co/hal_specification.html[HAL format] for JSON output. It is flexible and offers a convenient way to supply links adjacent to the data that is served.
+NOTE: Spring Data REST uses the http://stateless.co/hal_specification.html[HAL format] for JSON output. It is flexible
+and offers a convenient way to supply links adjacent to the data that is served.
 
 ```
 $ curl http://localhost:8080/people
@@ -139,11 +163,14 @@ Date: Wed, 05 Mar 2014 20:16:11 GMT
 ```
 
 - `-i` ensures you can see the response message including the headers. The URI of the newly created `Person` is shown
-- `-X POST` signals this a `POST` used to create a new entry
-- `-H "Content-Type:application/json"` sets the content type so the application knows the payload contains a JSON object
+- `-X POST` issues a `POST` HTTP request to create a new entry
+- `-H "Content-Type:application/json"` sets the content-type so the application knows the payload contains a JSON object
 - `-d '{  "firstName" : "Frodo",  "lastName" : "Baggins" }'` is the data being sent
 
-NOTE: Notice how the previous `POST` operation includes a `Location` header. This contains the URI of the newly created resource. Spring Data REST also has two methods on `RepositoryRestConfiguration.setReturnBodyOnCreate(…)` and `setReturnBodyOnCreate(…)` which you can use to configure the framework to immediately return the representation of the resource just created.
+NOTE: Notice how the previous `POST` operation includes a `Location` header. This contains the URI of
+the newly created resource. Spring Data REST also has two methods on `RepositoryRestConfiguration.setReturnBodyOnCreate(…)`
+and `setReturnBodyOnCreate(…)` which you can use to configure the framework to immediately return the representation
+of the resource just created.
 
 From this you can query for all people:
 
@@ -169,7 +196,9 @@ $ curl http://localhost:8080/people
 }
 ```
 
-The **persons** object contains a list with Frodo. Notice how it includes a **self** link. Spring Data REST also uses http://www.atteo.org/2011/12/12/Evo-Inflector.html[Evo Inflector] to pluralize the name of the entity for groupings.
+The **people** collection resource contains a list with Frodo. Notice how it includes a **self** link. Spring Data REST
+also uses http://www.atteo.org/2011/12/12/Evo-Inflector.html[Evo Inflector] to pluralize the name of the entity
+for groupings.
 
 You can query directly for the individual record:
 
@@ -186,9 +215,11 @@ $ curl http://localhost:8080/people/1
 }
 ```
 
-NOTE: This might appear to be purely web based, but behind the scenes, it is talking to an embedded GemFire database.
+NOTE: This might appear to be purely web based, but behind the scenes, it is talking to
+an embedded Pivotal GemFire database.
 
-In this guide, there is only one domain object. With a more complex system where domain objects are related to each other, Spring Data REST will render additional links to help navigate to connected records.
+In this guide, there is only one domain object. With a more complex system where domain objects are related
+to each other, Spring Data REST will render additional links to help navigate to connected records.
 
 Find all the custom queries:
 
@@ -204,7 +235,8 @@ $ curl http://localhost:8080/people/search
 }
 ```
 
-You can see the URL for the query including the HTTP query parameter `name`. If you'll notice, this matches the `@Param("name")` annotation embedded in the interface.
+You can see the URL for the query including the HTTP query parameter `name`. If you'll notice, this matches
+the `@Param("name")` annotation embedded in the interface.
 
 To use the `findByLastName` query, do this:
 
@@ -225,7 +257,9 @@ $ curl http://localhost:8080/people/search/findByLastName?name=Baggins
 }
 ```
 
-Because you defined it to return `List<Person>` in the code, it will return all of the results. If you had defined it only return `Person`, it will pick one of the Person objects to return. Since this can be unpredictable, you probably don't want to do that for queries that can return multiple entries.
+Because you defined it to return `List<Person>` in the code, it will return all of the results. If you had defined it
+to only return `Person`, it would pick one of the `Person` objects to return. Since this can be unpredictable,
+you probably don't want to do that for queries that can return multiple entries.
 
 You can also issue `PUT`, `PATCH`, and `DELETE` REST calls to either replace, update, or delete existing records.
 
@@ -257,7 +291,8 @@ $ curl http://localhost:8080/people/1
 }
 ```
 
-NOTE: `PUT` replaces an entire record. Fields not supplied will be replaced with `null`. `PATCH` can be used to update a subset of items.
+NOTE: `PUT` replaces an entire record. Fields not supplied will be replaced with `null`. `PATCH` can be used to
+update a subset of items.
 
 You can delete records:
 
@@ -273,11 +308,15 @@ $ curl http://localhost:8080/people
 }
 ```
 
-A very convenient aspect of this link:/understanding/HATEOAS[hypermedia-driven interface] is how you can discover all the RESTful endpoints using curl (or whatever REST client you are using). There is no need to exchange a formal contract or interface document with your customers.
+A very convenient aspect of this link:/understanding/HATEOAS[hypermedia-driven interface] is how you can discover
+all the REST-ful endpoints using `curl` (or whatever REST client you are using). There is no need to exchange
+a formal contract or interface document with your customers.
 
+[[summary]]
 == Summary
 
-Congratulations! You've just developed an application with a link:/guides/gs/rest-hateoas[hypermedia-based] link:/understanding/REST[RESTful] front end and a GemFire-based back end.
+Congratulations! You've just developed an application with a link:/guides/gs/rest-hateoas[hypermedia-based]
+link:/understanding/REST[RESTful] frontend and a Pivotal GemFire-based backend.
 
 == See Also
 
