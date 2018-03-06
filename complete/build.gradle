@@ -23,7 +23,7 @@ targetCompatibility = 1.8
 
 ext['jackson.version'] = '2.9.2';
 
-jar {
+bootJar {
     baseName = 'gs-accessing-gemfire-data-rest'
     version =  '0.1.0'
 }
