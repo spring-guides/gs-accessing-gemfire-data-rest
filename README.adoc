@@ -21,15 +21,16 @@ link:/guides/gs/rest-hateoas[hypermedia-based] link:/understanding/REST[REST-ful
 You'll build a _Spring_ Web application that let's you create and retrieve `Person` objects stored in the
 http://pivotal.io/big-data/pivotal-gemfire[Pivotal GemFire] In-Memory Data Grid using Spring Data REST.
 Spring Data REST takes the features of http://projects.spring.io/spring-hateoas[Spring HATEOAS]
-and http://projects.spring.io/spring-data-gemfire[Spring Data GemFire] and combines them together automatically.
+and http://projects.spring.io/spring-data-gemfire[Spring Data for Pivotal GemFire] and combines them together
+automatically.
 
 NOTE: Spring Data REST also supports link:/guides/gs/accessing-data-rest[Spring Data JPA],
 link:/guides/gs/accessing-mongodb-data-rest[Spring Data MongoDB]
 and link:/guides/gs/accessing-neo4j-data-rest[Spring Data Neo4j] as backend data stores,
 but those are not part of this guide.
 
-TIP: For more general knowledge of Pivotal GemFire concepts and accessing data from GemFire, read through the guide,
-https://spring.io/guides/gs/accessing-data-gemfire/[Accessing Data with GemFire].
+TIP: For more general knowledge of Pivotal GemFire concepts and accessing data from Pivotal GemFire, read through the guide,
+https://spring.io/guides/gs/accessing-data-gemfire/[Accessing Data with Pivotal GemFire].
 
 [[setup]]
 == What you'll need
@@ -73,8 +74,9 @@ include::complete/src/main/java/hello/PersonRepository.java[]
 This _Repository_ is an interface and will allow you to perform various data access operations (e.g. basic CRUD
 and simple queries) involving `Person` objects. It gets these operations by extending `CrudRepository`.
 
-At runtime, _Spring Data GemFire_ will create an implementation of this interface automatically. Then, Spring Data REST
-will use the http://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource]
+At runtime, _Spring Data for Pivotal GemFire_ will create an implementation of this interface automatically.
+Then, Spring Data REST will use the
+http://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource]
 annotation to direct Spring MVC to create REST-ful endpoints at `/people`.
 
 NOTE: `@RepositoryRestResource` is not required for a _Repository_ to be exported. It is only used to change the export
@@ -100,9 +102,9 @@ include::complete/src/main/java/hello/Application.java[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
 
-The `@EnableGemfireRepositories` annotation activates _Spring Data GemFire_ _Repositories_. _Spring Data GemFire_
-will create a concrete implementation of the `PersonRepository` interface and configure it to talk to an embedded
-instance of Pivotal GemFire.
+The `@EnableGemfireRepositories` annotation activates _Spring Data for Pivotal GemFire_ _Repositories_.
+_Spring Data for Pivotal GemFire_ will create a concrete implementation of the `PersonRepository` interface
+and configure it to talk to an embedded instance of Pivotal GemFire.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
@@ -130,8 +132,8 @@ $ curl http://localhost:8080
 ```
 
 Here you get your first glimpse of what this server has to offer. There is a **people** link located at
-http://localhost:8080/people. _Spring Data GemFire_ doesn't support pagination like the other Spring Data REST guides
-so there are no extra navigational links.
+http://localhost:8080/people. _Spring Data for Pivotal GemFire_ doesn't support pagination like the other
+Spring Data REST guides so there are no extra navigational links.
 
 NOTE: Spring Data REST uses the http://stateless.co/hal_specification.html[HAL format] for JSON output. It is flexible
 and offers a convenient way to supply links adjacent to the data that is served.
