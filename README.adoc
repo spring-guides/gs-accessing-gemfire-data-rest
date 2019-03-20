@@ -2,12 +2,12 @@
 :spring_boot_version: 1.5.10.RELEASE
 :spring_data_commons: current
 :spring_data_rest: current
-:Component: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
-:Controller: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
-:DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
-:SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
-:ResponseBody: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
-:EnableAutoConfiguration: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
+:Component: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
+:Controller: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
+:DispatcherServlet: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
+:SpringApplication: https://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
+:ResponseBody: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
+:EnableAutoConfiguration: https://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
 :toc:
 :icons: font
 :source-highlighter: prettify
@@ -19,9 +19,9 @@ link:/guides/gs/rest-hateoas[hypermedia-based] link:/understanding/REST[REST-ful
 == What you'll build
 
 You'll build a _Spring_ Web application that let's you create and retrieve `Person` objects stored in the
-http://pivotal.io/big-data/pivotal-gemfire[Pivotal GemFire] In-Memory Data Grid using Spring Data REST.
-Spring Data REST takes the features of http://projects.spring.io/spring-hateoas[Spring HATEOAS]
-and http://projects.spring.io/spring-data-gemfire[Spring Data for Pivotal GemFire] and combines them together
+https://pivotal.io/big-data/pivotal-gemfire[Pivotal GemFire] In-Memory Data Grid using Spring Data REST.
+Spring Data REST takes the features of https://projects.spring.io/spring-hateoas[Spring HATEOAS]
+and https://projects.spring.io/spring-data-gemfire[Spring Data for Pivotal GemFire] and combines them together
 automatically.
 
 NOTE: Spring Data REST also supports link:/guides/gs/accessing-data-rest[Spring Data JPA],
@@ -76,7 +76,7 @@ and simple queries) involving `Person` objects. It gets these operations by exte
 
 At runtime, _Spring Data for Pivotal GemFire_ will create an implementation of this interface automatically.
 Then, Spring Data REST will use the
-http://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource]
+https://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource]
 annotation to direct Spring MVC to create REST-ful endpoints at `/people`.
 
 NOTE: `@RepositoryRestResource` is not required for a _Repository_ to be exported. It is only used to change the export
@@ -195,7 +195,7 @@ $ curl http://localhost:8080/people
 ```
 
 The **people** collection resource contains a list with Frodo. Notice how it includes a **self** link. Spring Data REST
-also uses http://www.atteo.org/2011/12/12/Evo-Inflector.html[Evo Inflector] to pluralize the name of the entity
+also uses https://www.atteo.org/2011/12/12/Evo-Inflector.html[Evo Inflector] to pluralize the name of the entity
 for groupings.
 
 You can query directly for the individual record:
