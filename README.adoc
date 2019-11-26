@@ -52,7 +52,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 Create a new domain object to present a person.
 
 `src/main/java/hello/Person.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Person.java[]
 ----
@@ -66,7 +66,7 @@ to increment with each `Person` object creation.
 Next, you need to create a simple _Repository_ to persist/access `Person` objects stored in Pivotal GemFire.
 
 `src/main/java/hello/PersonRepository.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/PersonRepository.java[]
 ----
@@ -95,7 +95,7 @@ support for embedding the link:/understanding/Tomcat[Tomcat] servlet container a
 to an external servlet container.
 
 `src/main/java/hello/Application.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
