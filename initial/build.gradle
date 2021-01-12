@@ -29,6 +29,10 @@ dependencies {
 
 }
 
+test {
+    useJUnitPlatform()
+}
+
 bootJar {
     baseName = 'gs-accessing-gemfire-data-rest'
     version =  '0.1.0'
