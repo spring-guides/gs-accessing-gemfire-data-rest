@@ -3,26 +3,27 @@
 :spring_data_commons: current
 :spring_data_rest: current
 :apache-geode-name: Apache Geode
-:Component: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
-:Controller: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
-:DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
-:EnableAutoConfiguration: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
-:ResponseBody: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
-:SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
+:Component: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
+:Controller: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
+:DispatcherServlet: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
+:EnableAutoConfiguration: https://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
+:ResponseBody: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
+:SpringApplication: https://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :toc:
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-accessing-gemfire-data-rest
 
-This guide walks you through the process of creating an application that accesses {apache-geode-name} data through a
-link:/guides/gs/rest-hateoas[hypermedia-based] link:/understanding/REST[REST-ful frontend].
+This guide walks you through the process of creating an application that accesses data stored in
+https://geode.apache.org/[{apache-geode-name}] through a link:/guides/gs/rest-hateoas[hypermedia-based]
+link:/understanding/REST[REST-ful frontend].
 
 == What you'll build
 
 You'll build a _Spring_ Web application that let's you create and retrieve `Person` objects stored in the
-https://geode.apache.org/[{apache-geode-name}] In-Memory Data Grid using Spring Data REST.
-Spring Data REST takes the features of http://projects.spring.io/spring-hateoas[Spring HATEOAS]
-and http://projects.spring.io/spring-data-geode[Spring Data for {apache-geode-name}] and combines them together
+https://geode.apache.org/[{apache-geode-name}] In-Memory Data Grid (IMDG) using Spring Data REST.
+Spring Data REST takes the features of https://projects.spring.io/spring-hateoas[Spring HATEOAS]
+and https://spring.io/projects/spring-data-geode[Spring Data for {apache-geode-name}] and combines them together
 automatically.
 
 NOTE: Spring Data REST also supports link:/guides/gs/accessing-data-rest[Spring Data JPA],
@@ -96,7 +97,7 @@ and simple queries) involving `Person` objects. It gets these operations by exte
 
 At runtime, _Spring Data for {apache-geode-name}_ will create an implementation of this interface automatically.
 Then, Spring Data REST will use the
-http://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource]
+https://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource]
 annotation to direct Spring MVC to create REST-ful endpoints at `/people`.
 
 NOTE: `@RepositoryRestResource` is not required for a _Repository_ to be exported. It is only used to change the export
@@ -155,7 +156,7 @@ Here you get your first glimpse of what this server has to offer. There is a **p
 http://localhost:8080/people. _Spring Data for {apache-geode-name}_ doesn't support pagination like the other
 Spring Data REST guides so there are no extra navigational links.
 
-NOTE: Spring Data REST uses the http://stateless.co/hal_specification.html[HAL format] for JSON output. It is flexible
+NOTE: Spring Data REST uses the https://stateless.co/hal_specification.html[HAL format] for JSON output. It is flexible
 and offers a convenient way to supply links adjacent to the data that is served.
 
 ```
@@ -215,7 +216,7 @@ $ curl http://localhost:8080/people
 ```
 
 The **people** collection resource contains a list with Frodo. Notice how it includes a **self** link. Spring Data REST
-also uses http://www.atteo.org/2011/12/12/Evo-Inflector.html[Evo Inflector] to pluralize the name of the entity
+also uses https://www.atteo.org/2011/12/12/Evo-Inflector.html[Evo Inflector] to pluralize the name of the entity
 for groupings.
 
 You can query directly for the individual record:
