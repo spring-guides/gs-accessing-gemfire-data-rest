@@ -1,27 +1,28 @@
 :spring_version: current
-:spring_boot_version: 1.5.10.RELEASE
+:spring_boot_version: 2.4.1
 :spring_data_commons: current
 :spring_data_rest: current
+:apache-geode-name: Apache Geode
 :Component: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Component.html
 :Controller: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
-:SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
-:ResponseBody: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
 :EnableAutoConfiguration: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
+:ResponseBody: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
+:SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :toc:
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-accessing-gemfire-data-rest
 
-This guide walks you through the process of creating an application that accesses Pivotal GemFire data through a
+This guide walks you through the process of creating an application that accesses {apache-geode-name} data through a
 link:/guides/gs/rest-hateoas[hypermedia-based] link:/understanding/REST[REST-ful frontend].
 
 == What you'll build
 
 You'll build a _Spring_ Web application that let's you create and retrieve `Person` objects stored in the
-http://pivotal.io/big-data/pivotal-gemfire[Pivotal GemFire] In-Memory Data Grid using Spring Data REST.
+https://geode.apache.org/[{apache-geode-name}] In-Memory Data Grid using Spring Data REST.
 Spring Data REST takes the features of http://projects.spring.io/spring-hateoas[Spring HATEOAS]
-and http://projects.spring.io/spring-data-gemfire[Spring Data for Pivotal GemFire] and combines them together
+and http://projects.spring.io/spring-data-geode[Spring Data for {apache-geode-name}] and combines them together
 automatically.
 
 NOTE: Spring Data REST also supports link:/guides/gs/accessing-data-rest[Spring Data JPA],
@@ -29,8 +30,8 @@ link:/guides/gs/accessing-mongodb-data-rest[Spring Data MongoDB]
 and link:/guides/gs/accessing-neo4j-data-rest[Spring Data Neo4j] as backend data stores,
 but those are not part of this guide.
 
-TIP: For more general knowledge of Pivotal GemFire concepts and accessing data from Pivotal GemFire, read through the guide,
-https://spring.io/guides/gs/accessing-data-gemfire/[Accessing Data with Pivotal GemFire].
+TIP: For more general knowledge of {apache-geode-name} concepts and accessing data from {apache-geode-name}, read through the guide,
+https://spring.io/guides/gs/accessing-data-gemfire/[Accessing Data with {apache-geode-name}].
 
 [[setup]]
 == What you'll need
@@ -57,13 +58,13 @@ Create a new domain object to present a person.
 include::complete/src/main/java/hello/Person.java[]
 ----
 
-The `Person` has a first and last name. Pivotal GemFire domain objects need an id, so an `AtomicLong` is being used
+The `Person` has a first and last name. {apache-geode-name} domain objects need an id, so an `AtomicLong` is being used
 to increment with each `Person` object creation.
 
 [[repository]]
 == Create a Person Repository
 
-Next, you need to create a simple _Repository_ to persist/access `Person` objects stored in Pivotal GemFire.
+Next, you need to create a simple _Repository_ to persist/access `Person` objects stored in {apache-geode-name}.
 
 `src/main/java/hello/PersonRepository.java`
 [source,java,tabsize=2]
@@ -74,7 +75,7 @@ include::complete/src/main/java/hello/PersonRepository.java[]
 This _Repository_ is an interface and will allow you to perform various data access operations (e.g. basic CRUD
 and simple queries) involving `Person` objects. It gets these operations by extending `CrudRepository`.
 
-At runtime, _Spring Data for Pivotal GemFire_ will create an implementation of this interface automatically.
+At runtime, _Spring Data for {apache-geode-name}_ will create an implementation of this interface automatically.
 Then, Spring Data REST will use the
 http://docs.spring.io/spring-data/rest/docs/{spring_data_rest}/api/org/springframework/data/rest/core/annotation/RepositoryRestResource.html[@RepositoryRestResource]
 annotation to direct Spring MVC to create REST-ful endpoints at `/people`.
@@ -102,9 +103,9 @@ include::complete/src/main/java/hello/Application.java[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
 
-The `@EnableGemfireRepositories` annotation activates _Spring Data for Pivotal GemFire_ _Repositories_.
-_Spring Data for Pivotal GemFire_ will create a concrete implementation of the `PersonRepository` interface
-and configure it to talk to an embedded instance of Pivotal GemFire.
+The `@EnableGemfireRepositories` annotation activates _Spring Data for {apache-geode-name}_ _Repositories_.
+_Spring Data for {apache-geode-name}_ will create a concrete implementation of the `PersonRepository` interface
+and configure it to talk to an embedded instance of {apache-geode-name}.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
@@ -132,7 +133,7 @@ $ curl http://localhost:8080
 ```
 
 Here you get your first glimpse of what this server has to offer. There is a **people** link located at
-http://localhost:8080/people. _Spring Data for Pivotal GemFire_ doesn't support pagination like the other
+http://localhost:8080/people. _Spring Data for {apache-geode-name}_ doesn't support pagination like the other
 Spring Data REST guides so there are no extra navigational links.
 
 NOTE: Spring Data REST uses the http://stateless.co/hal_specification.html[HAL format] for JSON output. It is flexible
@@ -214,7 +215,7 @@ $ curl http://localhost:8080/people/1
 ```
 
 NOTE: This might appear to be purely web based, but behind the scenes, it is talking to
-an embedded Pivotal GemFire database.
+an embedded {apache-geode-name} database.
 
 In this guide, there is only one domain object. With a more complex system where domain objects are related
 to each other, Spring Data REST will render additional links to help navigate to connected records.
@@ -314,7 +315,7 @@ a formal contract or interface document with your customers.
 == Summary
 
 Congratulations! You've just developed an application with a link:/guides/gs/rest-hateoas[hypermedia-based]
-link:/understanding/REST[RESTful] frontend and a Pivotal GemFire-based backend.
+link:/understanding/REST[RESTful] frontend and a {apache-geode-name}-based backend.
 
 == See Also
 
