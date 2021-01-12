@@ -30,15 +30,11 @@ repositories {
 
 dependencies {
 
-    compile("org.springframework.boot:spring-boot-starter-data-rest") {
-        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
-    }
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.data:spring-data-geode")
     compile("org.projectlombok:lombok")
 
     runtime("org.springframework.shell:spring-shell:1.2.0.RELEASE")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test") {
-        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
-    }
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
