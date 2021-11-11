@@ -1,5 +1,5 @@
 :spring_version: current
-:spring_boot_version: 2.4.1
+:spring_boot_version: 2.5.6
 :spring_data_commons: current
 :spring_data_rest: current
 :apache-geode-name: Apache Geode
